@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const app = express();
+const errorHandler = require("./middleWare/errorHandler");
 const PORT = 4000;
 
 // Middleware for json
@@ -23,5 +24,8 @@ app.all("*", (req, res) => {
     res.type("txt").send("404 not found");
   }
 });
+
+// Server error catching
+app.use(errorHandler);
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
