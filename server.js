@@ -2,18 +2,29 @@ const express = require("express");
 const path = require("path");
 const app = express();
 const errorHandler = require("./middleWare/errorHandler");
+const { verifyJWT } = require("./middleWare/verifyJWT");
+const cookieParser = require("cookie-parser");
 const PORT = 4000;
+
+app.use(express.urlencoded({ extended: false }));
 
 // Middleware for json
 app.use(express.json());
+
+// Middleware for cookies
+app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, "/public")));
 
 // Routes
 app.use("/", require("./routes/root"));
-app.use("/people", require("./routes/api/people"));
 app.use("/register", require("./routes/register"));
 app.use("/auth", require("./routes/auth"));
+app.use("/refresh", require("./routes/refresh"));
+
+// Token veification is happening only on peole route
+app.use(verifyJWT);
+app.use("/people", require("./routes/api/people"));
 
 // Catching 404
 app.all("*", (req, res) => {
