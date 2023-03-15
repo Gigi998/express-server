@@ -30,7 +30,7 @@ app.use("/logout", require("./routes/logout"));
 
 // Token veification is happening only on peole route
 app.use(verifyJWT);
-app.use("/people", require("./routes/api/people"));
+app.use("/workers", require("./routes/api/workers"));
 
 // Catching 404
 app.all("*", (req, res) => {

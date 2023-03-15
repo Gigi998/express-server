@@ -1,24 +1,24 @@
 const express = require("express");
 const path = require("path");
 const router = express.Router();
-const peopleController = require("../../controllers/peopleController.js");
+const workersController = require("../../controllers/workersController.js");
 const verifyRoles = require("../../middleWare/verifyRoles");
 const ROLES_LIST = require("../../config/roles_list");
 
 // Chain multiple methods
 router
   .route("/")
-  .get(peopleController.getAll)
+  .get(workersController.getAll)
   .post(
     verifyRoles(ROLES_LIST.Admin, ROLES_LIST.Editor),
-    peopleController.createNewPerson
+    workersController.createNewWorker
   )
   .put(
     verifyRoles(ROLES_LIST.Admin, ROLES_LIST.Editor),
-    peopleController.updatePerson
+    workersController.updateWorker
   )
-  .delete(verifyRoles(ROLES_LIST.Admin), peopleController.deletePerson);
+  .delete(verifyRoles(ROLES_LIST.Admin), workersController.deletePerson);
 
-router.route("/:id").get(peopleController.getSinglePerson);
+router.route("/:id").get(workersController.getSinglePerson);
 
 module.exports = router;
