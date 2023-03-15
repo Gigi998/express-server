@@ -4,7 +4,12 @@ const app = express();
 const errorHandler = require("./middleWare/errorHandler");
 const { verifyJWT } = require("./middleWare/verifyJWT");
 const cookieParser = require("cookie-parser");
+const mongoose = require("mongoose");
+const connectDB = require("./config/dbConn");
 const PORT = 4000;
+
+// DB connection
+connectDB();
 
 app.use(express.urlencoded({ extended: false }));
 
@@ -42,4 +47,8 @@ app.all("*", (req, res) => {
 // Server error catching
 app.use(errorHandler);
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Only listen to port if we are connected
+mongoose.connection.once("open", () => {
+  console.log("Connected to MongoDB");
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+});
