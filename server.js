@@ -1,9 +1,12 @@
 const express = require("express");
 const path = require("path");
 const app = express();
+const cors = require("cors");
 const errorHandler = require("./middleWare/errorHandler");
 const { verifyJWT } = require("./middleWare/verifyJWT");
 const cookieParser = require("cookie-parser");
+const corsOptions = require("./config/corsOptions");
+const credentials = require("./middleWare/credentials");
 const mongoose = require("mongoose");
 const connectDB = require("./config/dbConn");
 const PORT = 4000;
@@ -11,6 +14,13 @@ const PORT = 4000;
 // DB connection
 connectDB();
 
+// check options credentials check
+app.use(credentials);
+
+// CORS
+app.use(cors(corsOptions));
+
+// url-encoded data mid
 app.use(express.urlencoded({ extended: false }));
 
 // Middleware for json

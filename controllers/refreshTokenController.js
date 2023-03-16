@@ -58,7 +58,7 @@ const handleRefreshToken = async (req, res) => {
           },
         },
         process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: "30s" }
+        { expiresIn: "10s" }
       );
       // We want to create newRefreshtoken every refresh
       const newRefreshToken = jwt.sign(
