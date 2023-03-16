@@ -26,7 +26,8 @@ const createNewWorker = async (req, res) => {
 
 const updateWorker = async (req, res) => {
   // Check if id is in body
-  if (!req?.body?.id) return res.send(400).json({ message: "Id is required" });
+  if (!req?.body?.id)
+    return res.status(400).json({ message: "Id is required" });
   const id = req.body.id;
   // Check if there is worker with the id we recived
   const worker = await Worker.findOne({ _id: id }).exec();
@@ -40,9 +41,10 @@ const updateWorker = async (req, res) => {
 
 const deletePerson = async (req, res) => {
   // Check if id is in body
-  if (!req?.body?.id) return res.send(400).json({ message: "Id is required" });
+  if (!req?.body?.id)
+    return res.status(400).json({ message: "Id is required" });
   const id = req.body.id;
-  // Check if there is worker with the id we recived
+  // Check if there is worker with the received id
   const worker = await Worker.findOne({ _id: id }).exec();
   if (!worker) res.status(400).json({ message: `Employee ID ${id} not found` });
   const result = await worker.deleteOne({ _id: id });
@@ -52,7 +54,7 @@ const deletePerson = async (req, res) => {
 const getSinglePerson = async (req, res) => {
   // Check if id is in body
   if (!req?.params?.id)
-    return res.send(400).json({ message: "Id is required" });
+    return res.status(400).json({ message: "Id is required" });
   const id = req.params.id;
   // Check if there is worker with the id we recived
   const worker = await Worker.findOne({ _id: id }).exec();
